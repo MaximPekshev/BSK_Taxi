@@ -5,9 +5,10 @@
 
 {% block content %}
 
+
 <div class="container-fluid py-2 flex-row">
 	<div class="row">
-		<div class="col-lg-2 p-2">ФАМИЛИЯ ИМЯ</div>
+		<div class="col-lg-2 p-2">{{ driver.second_name}} {{ driver.first_name}} {{ driver.third_name}}</div>
 		<div class="p-2">С:</div>
 		<div class="col-lg-1">
 			<input name="data1" id="data1" type="date" class="form-control">
@@ -16,8 +17,12 @@
 		<div class="col-lg-1">
 			<input name="data2" id="data2" type="date" class="form-control">
 		</div>
-		<button type="button" class="btn btn-secondary">Сформировать</button>
-
+		<div class="col-lg-1">
+			<button type="button" class="btn btn-secondary">Сформировать</button>
+		</div>
+		<div class="col-lg-2">
+			<a href="{% url 'show_index' %}"><button type="button" class="btn btn-secondary"> На главную </button></a>
+		</div>
 	</div>
 </div>
 
@@ -26,7 +31,7 @@
 <table class="table table-sm table-hover">
 	<thead class="thead-dark">
 		<tr>
-			<th>#</th>
+			<th></th>
 			<th>Дата</th>
 			<th>Ставка</th>
 			<th>ГСМ</th>
@@ -38,55 +43,36 @@
 		</tr>
 	</thead>
 	<tbody>
+
+		{% for day in working_days %}
+		{% if day.debt_of_day < 0 %}
+		<tr class="table-danger">
+		{% else %}	
 		<tr>
-			<th scope="row">1</th>
-			<td>24.01.2020</td>
-			<td>1200</td>
-			<td>800</td>
-			<td><span>500</span></td>
-			<td>0</td>
-			<td>5365</td>
-			<td><button type="button" class="btn btn-secondary" data-toggle="modal" data-target="#exampleModalCentered">
+		{% endif %}	
+			<th><button type="button" class="btn btn-secondary" data-toggle="modal" data-target="#id{{day.slug}}">
 				&#9998;
-			</button></td>
-			<td>-</td>
+			</button></th>
+			<td>{{ day.date }}</td>
+			<td>{{ day.rate }}</td>
+			<td>{{ day.fuel }}</td>
+			<td>{{ day.penalties }}</td>
+			<td>{{ day.cash }}</td>
+			<td>{{ day.cashless }}</td>
+			<td></td>
+			<td>{{ day.debt_of_day }}</td>
 		</tr>
-		<tr>
-			<th scope="row">2</th>
-			<td>24.01.2020</td>
-			<td>1200</td>
-			<td>800</td>
-			<td>0</td>
-			<td>0</td>
-			<td>1345</td>
-			<td><button type="button" class="btn btn-secondary" data-toggle="modal" data-target="#exampleModalCentered">
-				&#9998;
-			</button></td>
-			<td>-</td>
-		</tr>
-		<tr>
-			<th scope="row">3</th>
-			<td>24.01.2020</td>
-			<td>1200</td>
-			<td>800</td>
-			<td>0</td>
-			<td>0</td>
-			<td>5365</td>
-			<td><button type="button" class="btn btn-secondary" data-toggle="modal" data-target="#exampleModalCentered">
-				&#9998;
-			</button></td>
-			<td>-</td>
-		</tr>
+		{% endfor %}
 	</tbody>
 </table>
-
-
+<p>{{ driver.debt }}</p>
+{% for day in working_days %}
 <!-- Modal -->
-<div class="modal" id="exampleModalCentered" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenteredLabel" aria-hidden="true">
+<div class="modal" id="id{{day.slug}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenteredLabel" aria-hidden="true">
 	<div class="modal-dialog modal-dialog-centered" role="document">
 		<div class="modal-content">
 			<div class="modal-header">
-				<h5 class="modal-title" id="exampleModalCenteredLabel">24/01/2020</h5>
+				<h5 class="modal-title" id="exampleModalCenteredLabel">{{ day.data }}</h5>
 				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
 					<span aria-hidden="true">&times;</span>
 				</button>
@@ -98,23 +84,23 @@
 					<div class="form-group row">
 						<label for="inputRate" class="col-sm-2 col-form-label pb-2">Ставка</label>
 						<div class="col-sm-10 pb-2">
-							<input type="text" class="form-control" id="inputRate" placeholder="Ставка">
+							<input type="text" class="form-control" id="inputRate" placeholder="Ставка" value="{{ day.rate }}">
 						</div>
 						<label for="inputFuel" class="col-sm-2 col-form-label pb-2">ГСМ</label>
 						<div class="col-sm-10 pb-2">
-							<input type="text" class="form-control" id="inputFuel" placeholder="ГСМ">
+							<input type="text" class="form-control" id="inputFuel" placeholder="ГСМ" value="{{ day.fuel }}">
 						</div>
 						<label for="inputPenalties" class="col-sm-2 col-form-label pb-2">Штрафы</label>
 						<div class="col-sm-10 pb-2">
-							<input type="text" class="form-control" id="inputPenalties" placeholder="Штрафы">
+							<input type="text" class="form-control" id="inputPenalties" placeholder="Штрафы" value="{{ day.penalties }}">
 						</div>
 						<label for="inputCash" class="col-sm-2 col-form-label pb-2">Наличные</label>
 						<div class="col-sm-10 pb-2">
-							<input type="text" class="form-control" id="inputCash" placeholder="Наличные">
+							<input type="text" class="form-control" id="inputCash" placeholder="Наличные" value="{{ day.cash }}">
 						</div>
 						<label for="inputCashless" class="col-sm-2 col-form-label pb-2">Безнал</label>
 						<div class="col-sm-10 pb-2">
-							<input type="text" class="form-control" id="inputCashless" placeholder="Безнал">
+							<input type="text" class="form-control" id="inputCashless" placeholder="Безнал" value="{{ day.cashless }}">
 						</div>
 
 					</div>							 
@@ -127,5 +113,6 @@
 		</div>
 	</div>
 </div>
- 		
- {% endblock %}		
+{% endfor %}
+
+{% endblock %}		

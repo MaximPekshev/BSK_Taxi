@@ -34,7 +34,7 @@ class Working_dayAdmin(admin.ModelAdmin):
 					'cashless',
 					)	
 
-	exclude = ('slug',)
+	exclude = ('slug', 'debt_of_day',)
 
 
 admin.site.register(Working_day, Working_dayAdmin)
