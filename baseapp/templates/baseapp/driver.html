@@ -6,32 +6,36 @@
 {% block content %}
 
 
-<div class="container-fluid py-2 flex-row">
-	<div class="row">
-		<div class="col-lg-2 p-2">{{ driver.second_name}} {{ driver.first_name}} {{ driver.third_name}}</div>
-		<div class="p-2">С:</div>
-		<div class="col-lg-1">
-			<input name="data1" id="data1" type="date" class="form-control">
-		</div>
-		<div class="p-2">По:</div>
-		<div class="col-lg-1">
-			<input name="data2" id="data2" type="date" class="form-control">
-		</div>
-		<div class="col-lg-1">
-			<button type="button" class="btn btn-secondary">Сформировать</button>
-		</div>
-		<div class="col-lg-2">
-			<a href="{% url 'show_index' %}"><button type="button" class="btn btn-secondary"> На главную </button></a>
-		</div>
-	</div>
-</div>
 
 
 
-<table class="table table-sm table-hover">
-	<thead class="thead-dark">
-		<tr>
-			<th></th>
+
+<section class="ls ms ">
+	<div class="container-fluid py-2 flex-row">
+		<div class="row">
+			<div class="col-lg-3 pt-2"><h5 class="text-uppercase">{{ driver.second_name}} {{ driver.first_name}} {% if driver.third_name %}{{ driver.third_name}}{% endif %}</h5></div>
+			<div class="pt-3"><h5 class="text-uppercase ">С:</h5></div>
+			<div class="col-lg-2">
+				<input name="data1" id="data1" type="date" class="form-control">
+			</div>
+			<div class="pt-3"><h5 class="text-uppercase ">По:</h5></div>
+			<div class="col-lg-2">
+				<input name="data2" id="data2" type="date" class="form-control">
+			</div>
+			<div class="py-2">
+				<a class="theme_button" href="#" >Сформировать</a>
+			</div>
+			<div class="py-2 pl-2">
+				<a href="{% url 'show_index' %}" class="theme_button color1">На главную</a>
+			</div>
+		</div>
+	</div>		
+  <div class="container">
+    <div class="row">
+      <div class="col-sm-12">
+        <table class="table_template darklinks table-hover">
+          <thead class="thead-dark">
+            <tr>
 			<th>Дата</th>
 			<th>Ставка</th>
 			<th>ГСМ</th>
@@ -40,39 +44,38 @@
 			<th>Безналичные</th>
 			<th></th>
 			<th>Долг</th>
-		</tr>
-	</thead>
-	<tbody>
-
-		{% for day in working_days %}
-		{% if day.debt_of_day < 0 %}
-		<tr class="table-danger">
-		{% else %}	
-		<tr>
-		{% endif %}	
-			<th><button type="button" class="btn btn-secondary" data-toggle="modal" data-target="#id{{day.slug}}">
-				&#9998;
-			</button></th>
-			<td>{{ day.date }}</td>
-			<td>{{ day.rate }}</td>
-			<td>{{ day.fuel }}</td>
-			<td>{{ day.penalties }}</td>
-			<td>{{ day.cash }}</td>
-			<td>{{ day.cashless }}</td>
-			<td></td>
-			<td>{{ day.debt_of_day }}</td>
-		</tr>
-		{% endfor %}
-	</tbody>
-</table>
-<p>{{ driver.debt }}</p>
+            </tr>
+          </thead>
+          <tbody>
+          	{% for day in working_days %}
+          	{% if day.debt_of_day < 0 %}
+          	<tr class="table-danger">
+          		{% else %}	
+          		<tr>
+          			{% endif %}	
+          			<td><a href="" data-toggle="modal" data-target="#id{{day.slug}}">{{ day.date }}</a></td>
+          			<td>{{ day.rate }}</td>
+          			<td>{{ day.fuel }}</td>
+          			<td>{{ day.penalties }}</td>
+          			<td>{{ day.cash }}</td>
+          			<td>{{ day.cashless }}</td>
+          			<td></td>
+          			<td>{{ day.debt_of_day }}</td>
+          		</tr>
+          		{% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</section>
 {% for day in working_days %}
 <!-- Modal -->
 <div class="modal" id="id{{day.slug}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenteredLabel" aria-hidden="true">
 	<div class="modal-dialog modal-dialog-centered" role="document">
 		<div class="modal-content">
 			<div class="modal-header">
-				<h5 class="modal-title" id="exampleModalCenteredLabel">{{ day.data }}</h5>
+				<h5 class="">{{ day.date }}</h5>
 				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
 					<span aria-hidden="true">&times;</span>
 				</button>
@@ -107,8 +110,8 @@
 				</form> 
 			</div>
 			<div class="modal-footer">
-				<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-				<button type="button" class="btn btn-primary">Save changes</button>
+				<a class="theme_button" href="#" data-dismiss="modal">Отмена</a>
+				<a class="theme_button color1" href="#">Сохранить</a>
 			</div>
 		</div>
 	</div>
