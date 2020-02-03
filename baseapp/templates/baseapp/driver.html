@@ -7,14 +7,11 @@
 
 
 
-
-
-
 <section class="ls ms ">
 	<div class="container-fluid py-2 flex-row">
 		<div class="row">
 			<div class="col-lg-3 pt-2"><h5 class="text-uppercase">{{ driver.second_name}} {{ driver.first_name}} {% if driver.third_name %}{{ driver.third_name}}{% endif %}</h5></div>
-			<div class="pt-3"><h5 class="text-uppercase ">С:</h5></div>
+			<!-- <div class="pt-3"><h5 class="text-uppercase ">С:</h5></div>
 			<div class="col-lg-2">
 				<input name="data1" id="data1" type="date" class="form-control">
 			</div>
@@ -24,13 +21,20 @@
 			</div>
 			<div class="py-2">
 				<a class="theme_button" href="#" >Сформировать</a>
+			</div> -->
+			<div class="col-lg-6">
+				
+			</div>
+			<div class="py-2 pl-2">
+				<a href="" class="theme_button color1" data-toggle="modal" data-target="#new-day"><i class="rt-icon2-plus"></i></a>
 			</div>
 			<div class="py-2 pl-2">
 				<a href="{% url 'show_index' %}" class="theme_button color1">На главную</a>
 			</div>
+			
 		</div>
 	</div>		
-  <div class="container">
+  <div class="container col-lg-12">
     <div class="row">
       <div class="col-sm-12">
         <table class="table_template darklinks table-hover">
@@ -69,6 +73,54 @@
     </div>
   </div>
 </section>
+<div class="modal" id="new-day" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenteredLabel" aria-hidden="true">
+	<div class="modal-dialog modal-dialog-centered" role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h5 class="text-uppercase"> Новая смена </h5>
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+					<span aria-hidden="true">&times;</span>
+				</button>
+			</div>
+			<div class="modal-body">
+				<form id="idnewday" class="form" action="{% url 'working_day_add_new' driver_slug=driver.slug %}" method="POST">
+					{% csrf_token %}
+					<div class="form-group row">
+						<label for="inputDate" class="col-sm-2 col-form-label pb-2">Дата</label>
+						<div class="col-sm-10 pb-2">
+							<input type="date" name="input_date" class="form-control" id="inputDate" placeholder="Дата" value="">
+						</div>
+						<label for="inputRate" class="col-sm-2 col-form-label pb-2">Ставка</label>
+						<div class="col-sm-10 pb-2">
+							<input type="text" name="input_rate" class="form-control" id="inputRate" placeholder="Ставка" value="{{ driver.rate }}">
+						</div>
+						<label for="inputFuel" class="col-sm-2 col-form-label pb-2">ГСМ</label>
+						<div class="col-sm-10 pb-2">
+							<input type="text" name="input_fuel" class="form-control" id="inputFuel" placeholder="ГСМ" value="">
+						</div>
+						<label for="inputPenalties" class="col-sm-2 col-form-label pb-2">Штрафы</label>
+						<div class="col-sm-10 pb-2">
+							<input type="text" name="input_penalties" class="form-control" id="inputPenalties" placeholder="Штрафы" value="">
+						</div>
+						<label for="inputCash" class="col-sm-2 col-form-label pb-2">Наличные</label>
+						<div class="col-sm-10 pb-2">
+							<input type="text" name="input_cash" class="form-control" id="inputCash" placeholder="Наличные" value="">
+						</div>
+						<label for="inputCashless" class="col-sm-2 col-form-label pb-2">Безнал</label>
+						<div class="col-sm-10 pb-2">
+							<input type="text" name="input_cashless" class="form-control" id="inputCashless" placeholder="Безнал" value="">
+						</div>
+					</div>							 
+				</form> 
+			</div>
+			<div class="modal-footer">
+				<a class="theme_button" href="#" data-dismiss="modal">Отмена</a>
+
+				<button class="theme_button color1" type="submit" form="idnewday">СОХРАНИТЬ </button>
+			</div>
+		</div>
+	</div>
+</div>
 {% for day in working_days %}
 <!-- Modal -->
 <div class="modal" id="id{{day.slug}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenteredLabel" aria-hidden="true">
@@ -81,29 +133,29 @@
 				</button>
 			</div>
 			<div class="modal-body">
-				<form class="form" action="#" method="POST">
+				<form id="edit_day{{day.slug}}" class="form" action="{% url 'working_day_edit' day_slug=day.slug %}" method="POST">
 					{% csrf_token %}
 
 					<div class="form-group row">
 						<label for="inputRate" class="col-sm-2 col-form-label pb-2">Ставка</label>
 						<div class="col-sm-10 pb-2">
-							<input type="text" class="form-control" id="inputRate" placeholder="Ставка" value="{{ day.rate }}">
+							<input type="text" name="input_rate" class="form-control" id="inputRate" placeholder="Ставка" value="{{ day.rate }}">
 						</div>
 						<label for="inputFuel" class="col-sm-2 col-form-label pb-2">ГСМ</label>
 						<div class="col-sm-10 pb-2">
-							<input type="text" class="form-control" id="inputFuel" placeholder="ГСМ" value="{{ day.fuel }}">
+							<input type="text" name="input_fuel" class="form-control" id="inputFuel" placeholder="ГСМ" value="{{ day.fuel }}">
 						</div>
 						<label for="inputPenalties" class="col-sm-2 col-form-label pb-2">Штрафы</label>
 						<div class="col-sm-10 pb-2">
-							<input type="text" class="form-control" id="inputPenalties" placeholder="Штрафы" value="{{ day.penalties }}">
+							<input type="text" name="input_penalties" class="form-control" id="inputPenalties" placeholder="Штрафы" value="{{ day.penalties }}">
 						</div>
 						<label for="inputCash" class="col-sm-2 col-form-label pb-2">Наличные</label>
 						<div class="col-sm-10 pb-2">
-							<input type="text" class="form-control" id="inputCash" placeholder="Наличные" value="{{ day.cash }}">
+							<input type="text" name="input_cash" class="form-control" id="inputCash" placeholder="Наличные" value="{{ day.cash }}">
 						</div>
 						<label for="inputCashless" class="col-sm-2 col-form-label pb-2">Безнал</label>
 						<div class="col-sm-10 pb-2">
-							<input type="text" class="form-control" id="inputCashless" placeholder="Безнал" value="{{ day.cashless }}">
+							<input type="text" name="input_cashless" class="form-control" id="inputCashless" placeholder="Безнал" value="{{ day.cashless }}">
 						</div>
 
 					</div>							 
@@ -111,11 +163,12 @@
 			</div>
 			<div class="modal-footer">
 				<a class="theme_button" href="#" data-dismiss="modal">Отмена</a>
-				<a class="theme_button color1" href="#">Сохранить</a>
+				<button class="theme_button color1" type="submit" form="edit_day{{day.slug}}">СОХРАНИТЬ </button>
 			</div>
 		</div>
 	</div>
 </div>
 {% endfor %}
+
 
 {% endblock %}		

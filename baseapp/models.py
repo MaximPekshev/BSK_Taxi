@@ -71,10 +71,6 @@ class  Working_day(models.Model):
 	slug 		= models.SlugField(max_length=10, verbose_name='Url', blank=True, db_index=True)
 
 
-	# def __str__(self):
-		
-	# 	return self.date
-
 
 	def save(self, *args, **kwargs):
 
