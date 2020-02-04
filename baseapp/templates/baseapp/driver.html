@@ -8,9 +8,9 @@
 
 
 <section class="ls ms ">
-	<div class="container-fluid py-2 flex-row">
-		<div class="row">
-			<div class="col-lg-3 pt-2"><h5 class="text-uppercase">{{ driver.second_name}} {{ driver.first_name}} {% if driver.third_name %}{{ driver.third_name}}{% endif %}</h5></div>
+	<div class="container-fluid py-2 flex-row ">
+		<div class="d-flex flex-row-reverse">
+			<div class="py-2 pl-2"><a href="" class="theme_button" data-toggle="modal" data-target="#driverinfo">{{ driver.second_name}} {{ driver.first_name}} {% if driver.third_name %}{{ driver.third_name}}{% endif %}</a></div>
 			<!-- <div class="pt-3"><h5 class="text-uppercase ">С:</h5></div>
 			<div class="col-lg-2">
 				<input name="data1" id="data1" type="date" class="form-control">
@@ -22,14 +22,14 @@
 			<div class="py-2">
 				<a class="theme_button" href="#" >Сформировать</a>
 			</div> -->
-			<div class="col-lg-6">
+			<!-- <div class="col-lg-6">
 				
+			</div> -->
+			<div class="py-2 pl-2">
+				<a href="" class="theme_button color1" data-toggle="modal" data-target="#new-day"><i class="rt-icon2-add"></i></i></a>
 			</div>
 			<div class="py-2 pl-2">
-				<a href="" class="theme_button color1" data-toggle="modal" data-target="#new-day"><i class="rt-icon2-plus"></i></a>
-			</div>
-			<div class="py-2 pl-2">
-				<a href="{% url 'show_index' %}" class="theme_button color1">На главную</a>
+				<a href="{% url 'show_index' %}" class="theme_button color1"><i class="rt-icon2-home"></i></a>
 			</div>
 			
 		</div>
@@ -64,9 +64,29 @@
           			<td>{{ day.cash }}</td>
           			<td>{{ day.cashless }}</td>
           			<td></td>
-          			<td>{{ day.debt_of_day }}</td>
+          			<td style="text-align: right" >{{ day.debt_of_day }}</td>
           		</tr>
           		{% endfor %}
+          </tbody>
+        </table>
+        <table class="table_template darklinks table-hover">
+          <thead class="thead-dark">
+            <tr>
+			<!-- <th colspan="2"></th> -->
+			<!-- <th></th>
+			<th></th>
+			<th></th>
+			<th></th>
+			<th></th>
+			<th></th>
+			<th></th>
+			<th></th> -->
+			<!-- <th></th> -->
+			<th style="text-align: right" width="90%">Итого:</th>
+			<th style="text-align: right">{{ driver.debt }}</th>
+            </tr>
+          </thead>
+          <tbody>
           </tbody>
         </table>
       </div>
@@ -77,7 +97,7 @@
 	<div class="modal-dialog modal-dialog-centered" role="document">
 		<div class="modal-content">
 			<div class="modal-header">
-				<h5 class="text-uppercase"> Новая смена </h5>
+				<h5 class="text-uppercase pt-3"> Новая смена </h5>
 				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
 					<span aria-hidden="true">&times;</span>
 				</button>
@@ -121,13 +141,115 @@
 		</div>
 	</div>
 </div>
+
+<div class="modal" id="driverinfo" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenteredLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+       <div class="modal-header">
+          <h5 class="text-uppercase pt-3">{{ driver.second_name}} {{ driver.first_name}} {% if driver.third_name %}{{ driver.third_name}}{% endif %}</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+           <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body col-sm-12 text-center">
+          <form id="new-driver"  class="shop-register" method="POST" action="#">
+            {% csrf_token %}
+            <div class="container">
+              <div class="row">
+                <div class="col-lg-6">
+                	<div class="form-group validate-required" id="last_name">
+                    <label for="last_name" class="control-label">
+                      <span class="grey">Фамилия </span>
+                      <span class="required">*</span>
+                    </label>
+
+                    <input type="text" class="form-control " name="last_name" id="last_name" placeholder="" value="{{ driver.second_name }}" required>
+                  </div>
+
+                  <div class="form-group validate-required" id="first_name">
+
+                    <label for="first_name" class="control-label">
+                      <span class="grey">Имя </span>
+                      <span class="required">*</span>
+                    </label>
+
+                    <input type="text" class="form-control " name="first_name" id="first_name" placeholder="" value="{{ driver.first_name }}" required>
+                  </div>
+
+                  <div class="form-group" id="third_name">
+                    <label for="third_name" class="control-label">
+                      <span class="grey">Отчество</span>
+                    </label>
+
+                    <input type="text" class="form-control " name="third_name" id="third_name" placeholder="" value="{{ driver.third_name }}">
+                  </div>
+                </div>
+                <div class="col-lg-6 pt-4">
+                  	<img src="{% static 'images/no-avatar-png.png' %}" alt="">
+                </div>
+              </div>
+            </div>
+            <div class="container">
+              <div class="row">
+                <div class="col-lg-6">
+                  <div class="form-group validate-required" id="driver_license">
+                    <label for="driver_license" class="control-label">
+                      <span class="grey">Номер В/У</span>
+                      <span class="required">*</span>
+                    </label>
+
+                    <input type="text" class="form-control " name="driver_license" id="driver_license" placeholder="" value="{{ driver.driver_license }}" required>
+                  </div>
+
+                  <div class="form-group" id="car_model">
+                    <label for="car_model" class="control-label">
+                      <span class="grey">Марка А/М</span>
+                      <span class="required">*</span>
+                    </label>
+
+                    <input type="text" class="form-control " name="car_model" id="car_model" placeholder="" value="{{ driver.car_model }}" required>
+                  </div>
+                </div>
+                <div class="col-lg-6">
+                  <div class="form-group validate-required" id="car_number">
+                    <label for="car_number" class="control-label">
+                      <span class="grey">Гос номер А/М</span>
+                      <span class="required">*</span>
+                    </label>
+
+                    <input type="text" class="form-control " name="car_number" id="car_number" placeholder="" value="{{ driver.car_number }}" required>
+                  </div>
+                  <div class="form-group validate-required" id="rate">
+                    <label for="rate" class="control-label">
+                      <span class="grey">Ставка</span>
+                      <span class="required">*</span>
+                    </label>
+
+                    <input type="text" class="form-control " name="rate" id="rate" placeholder="" value="{{ driver.rate }}" required>
+                  </div>
+                </div>
+
+              </div>
+            </div>
+          </form>
+        </div>
+      <div class="modal-footer">
+        <a class="theme_button" href="#" data-dismiss="modal">ОТМЕНА</a>
+        <button class="theme_button color1" type="submit" form="new-driver">СОХРАНИТЬ </button>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+
 {% for day in working_days %}
 <!-- Modal -->
 <div class="modal" id="id{{day.slug}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenteredLabel" aria-hidden="true">
 	<div class="modal-dialog modal-dialog-centered" role="document">
 		<div class="modal-content">
 			<div class="modal-header">
-				<h5 class="">{{ day.date }}</h5>
+				<h5 class="pt-3">{{ day.date }}</h5>
 				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
 					<span aria-hidden="true">&times;</span>
 				</button>

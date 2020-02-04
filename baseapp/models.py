@@ -2,7 +2,8 @@ from django.db import models
 
 import uuid
 
-def calculate_debt(driver):
+def calculate_debt(driver_slug):
+	driver = Driver.objects.get(slug=driver_slug)
 	working_days = Working_day.objects.filter(driver = driver)
 	debt = 0
 	for day in working_days:
@@ -78,8 +79,9 @@ class  Working_day(models.Model):
 			self.slug = get_uuid()
 
 		self.debt_of_day = self.cash + self.cashless - self.rate - self.fuel - self.penalties
-		calculate_debt(self.driver)
+		
 		super(Working_day, self).save(*args, **kwargs)
+		calculate_debt(self.driver.slug)
 
 
 	class Meta:
