@@ -40,6 +40,7 @@ INSTALLED_APPS = [
 
     'baseapp',
     'workingdayapp',
+    'authapp',
 ]
 
 MIDDLEWARE = [

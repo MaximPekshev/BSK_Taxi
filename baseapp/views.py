@@ -7,15 +7,22 @@ from .forms import NewDriverForm
 
 def show_index(request):
 
-	drivers = Driver.objects.all()
+	if request.user.is_authenticated:
 
-	context = {
+		drivers = Driver.objects.all()
 
-		'drivers':drivers,
+		context = {
 
-	}
+			'drivers':drivers,
 
-	return render(request, 'baseapp/base.html', context)
+		}
+
+		return render(request, 'baseapp/base.html', context)
+
+	else:
+
+		return render(request, 'authapp/login.html')
+
 
 def show_driver(request, slug):
 

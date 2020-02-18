@@ -110,3 +110,8 @@ def working_day_edit(request, day_slug):
 	else:
 
 		return redirect('/')	
+
+
+def working_day_delete(request, day_slug):
+
+	pass

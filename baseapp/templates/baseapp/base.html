@@ -23,6 +23,15 @@
 
  	</head>
  	<body>
+  <section class="page_topline ds ms columns_margin_0">
+    <div class="container">
+      <div class="row">
+        <div class="col-sm-6 text-center text-sm-left">
+          <p class="fontsize_12 grey">
+          </div>
+        </div>
+      </div>
+    </section>
 
  	{% block content %}
   <section class="ls ms ">
@@ -30,7 +39,12 @@
     <div class="row">
 
       <div class="col-lg-12 d-flex flex-row-reverse">
-        <a class="theme_button" href="" data-toggle="modal" data-target="#addnewdriver">Новый водитель <i class="rt-icon2-add"></i></i></a>
+        <div class="pl-2">
+          <a class="theme_button color1" href="{% url 'logout' %}">Выйти</a>
+        </div>
+        <div class="pl-2">
+          <a class="theme_button" href="" data-toggle="modal" data-target="#addnewdriver">Новый водитель <i class="rt-icon2-add"></i></a>
+        </div>
       </div>
     </div>
   </div>
@@ -78,7 +92,7 @@
           </button>
         </div>
         <div class="modal-body col-sm-12 text-center">
-          <form id="edit-driver"  class="shop-register" method="POST" action="#">
+          <form id="edit-driver"  class="shop-register" method="POST" action="{% url 'driver_add_new' %}">
             {% csrf_token %}
             <div class="container">
               <div class="row">

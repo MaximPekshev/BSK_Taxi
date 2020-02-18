@@ -11,20 +11,6 @@
 	<div class="container-fluid py-2 flex-row ">
 		<div class="d-flex flex-row-reverse">
 			<div class="py-2 pl-2"><a href="" class="theme_button" data-toggle="modal" data-target="#driverinfo">{{ driver.second_name}} {{ driver.first_name}} {% if driver.third_name %}{{ driver.third_name}}{% endif %}</a></div>
-			<!-- <div class="pt-3"><h5 class="text-uppercase ">С:</h5></div>
-			<div class="col-lg-2">
-				<input name="data1" id="data1" type="date" class="form-control">
-			</div>
-			<div class="pt-3"><h5 class="text-uppercase ">По:</h5></div>
-			<div class="col-lg-2">
-				<input name="data2" id="data2" type="date" class="form-control">
-			</div>
-			<div class="py-2">
-				<a class="theme_button" href="#" >Сформировать</a>
-			</div> -->
-			<!-- <div class="col-lg-6">
-				
-			</div> -->
 			<div class="py-2 pl-2">
 				<a href="" class="theme_button color1" data-toggle="modal" data-target="#new-day"><i class="rt-icon2-add"></i></i></a>
 			</div>
@@ -54,9 +40,9 @@
           	{% for day in working_days %}
           	{% if day.debt_of_day < 0 %}
           	<tr class="table-danger">
-          		{% else %}	
+          	{% else %}	
           		<tr>
-          			{% endif %}	
+          	{% endif %}	
           			<td><a href="" data-toggle="modal" data-target="#id{{day.slug}}">{{ day.date }}</a></td>
           			<td>{{ day.rate }}</td>
           			<td>{{ day.fuel }}</td>
@@ -66,22 +52,13 @@
           			<td></td>
           			<td style="text-align: right" >{{ day.debt_of_day }}</td>
           		</tr>
-          		{% endfor %}
+          	{% endfor %}
           </tbody>
         </table>
+        {% if working_days %}
         <table class="table_template darklinks table-hover">
           <thead class="thead-dark">
             <tr>
-			<!-- <th colspan="2"></th> -->
-			<!-- <th></th>
-			<th></th>
-			<th></th>
-			<th></th>
-			<th></th>
-			<th></th>
-			<th></th>
-			<th></th> -->
-			<!-- <th></th> -->
 			<th style="text-align: right" width="90%">Итого:</th>
 			<th style="text-align: right">{{ driver.debt }}</th>
             </tr>
@@ -89,6 +66,7 @@
           <tbody>
           </tbody>
         </table>
+        {% endif %}
       </div>
     </div>
   </div>
@@ -244,7 +222,6 @@
 
 
 {% for day in working_days %}
-<!-- Modal -->
 <div class="modal" id="id{{day.slug}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenteredLabel" aria-hidden="true">
 	<div class="modal-dialog modal-dialog-centered" role="document">
 		<div class="modal-content">
