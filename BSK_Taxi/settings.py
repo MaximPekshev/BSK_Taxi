@@ -25,7 +25,7 @@ SECRET_KEY = '&_p38-=q6wm%(xvl%ly_1b3!l9dk_ipt1ec9+&&h7yuz-jbm)f'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['taxi.bsk31.com', 'www.taxi.bsk31.com', 'localhost' ]
 
 
 # Application definition
